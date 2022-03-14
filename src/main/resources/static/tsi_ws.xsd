@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:gpw="http://gpw.pl/tsi"
+           elementFormDefault="qualified"
+           targetNamespace="http://gpw.pl/tsi">
+
+    <xs:element name="knnRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="isin" type="xs:string"/>
+                <xs:element name="startDate" type="xs:string"/>
+                <xs:element name="endDate" type="xs:string"/>
+                <xs:element name="length" type="xs:integer"/>
+                <xs:element name="interval" type="gpw:interval" />
+                <xs:element name="k" type="xs:integer" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="interval" final="restriction" >
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MINUTES_5" />
+            <xs:enumeration value="MINUTES_15" />
+            <xs:enumeration value="MINUTES_30" />
+            <xs:enumeration value="MINUTES_60" />
+            <xs:enumeration value="DAY" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="timeSeries">
+        <xs:sequence>
+            <xs:element name="isin" type="xs:string"/>
+            <xs:element name="distance" type="xs:double"/>
+            <xs:element name="startDate" type="xs:string"/>
+            <xs:element name="endDate" type="xs:string"/>
+            <xs:element name="values">
+                <xs:simpleType>
+                    <xs:list itemType="xs:double">
+                    </xs:list>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="knnResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="gpw:timeSeries" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
